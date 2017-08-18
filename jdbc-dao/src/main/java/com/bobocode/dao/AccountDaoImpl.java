@@ -39,7 +39,6 @@ public class AccountDaoImpl implements AccountDao {
         preparedStatement.setDate(4, Date.valueOf(account.getBirthday()));
         preparedStatement.setBigDecimal(5, account.getBalance());
         preparedStatement.setDate(6, Date.valueOf(account.getCreationDate().toLocalDate()));
-
         return preparedStatement;
     }
 
@@ -61,8 +60,19 @@ public class AccountDaoImpl implements AccountDao {
     }
 
     @Override
-    public Account find(Long id) {
-        throw new UnsupportedOperationException("Method is not implemented yet. It's your homework");
+    public Account find(Long id){
+        try(Connection connection = dataSource.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM account WHERE id = ?");
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return parseRow(resultSet);
+            } else {
+                throw new DaoOperationException("Wrong ID");
+            }
+        } catch (SQLException e) {
+            throw new DaoOperationException(e.getMessage());
+        }
     }
 
     @Override
@@ -79,12 +89,25 @@ public class AccountDaoImpl implements AccountDao {
 
     @Override
     public void update(Account account) {
-        throw new UnsupportedOperationException("Method is not implemented yet. It's your homework");
+        try(Connection connection = dataSource.getConnection()) {
+            String query = "UPDATE account SET first_name = ?, last_name = ?, email = ?, birthday = ?, balance = ?, creation_date = ? WHERE id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, account.getFirstName());
+            preparedStatement.setString(2, account.getLastName());
+            preparedStatement.setString(3, account.getEmail());
+            preparedStatement.setDate(4, Date.valueOf(account.getBirthday()));
+            preparedStatement.setDouble(5, account.getBalance().doubleValue());
+            preparedStatement.setDate(6, Date.valueOf(account.getCreationDate().toLocalDate()));
+            preparedStatement.setLong(7, account.getId());
+            preparedStatement.execute();
+
+        } catch (SQLException e) {
+            throw new DaoOperationException(e.getMessage());
+        }
     }
 
     private Account parseRow(ResultSet rs) throws SQLException {
         Account account = new Account();
-
         account.setId(rs.getLong(1));
         account.setFirstName(rs.getString(2));
         account.setLastName(rs.getString(3));

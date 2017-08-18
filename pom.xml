@@ -9,11 +9,11 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>jdbc-hello-world</module>
         <module>jdbc-dao</module>
-        <module>jdbc-util</module>
+        <module>jdbc-hello-world</module>
         <module>jdbc-sql</module>
         <module>jdbc-sql-stream-task</module>
+        <module>jdbc-util</module>
     </modules>
 
     <properties>
