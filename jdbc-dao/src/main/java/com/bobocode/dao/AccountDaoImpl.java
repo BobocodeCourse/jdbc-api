@@ -62,7 +62,27 @@ public class AccountDaoImpl implements AccountDao {
 
     @Override
     public Account find(Long id) {
-        throw new UnsupportedOperationException("Method is not implemented yet. It's your homework");
+        try (Connection connection = dataSource.getConnection()) {
+            return isResultSet(prepareFindByIdStatement(connection, id)
+                    .executeQuery());
+        } catch (SQLException e) {
+            throw new DaoOperationException("Something went wrong with id: " + id, e);
+        }
+    }
+
+    private PreparedStatement prepareFindByIdStatement(Connection connection, Long id) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement(
+                "SELECT * FROM account WHERE id=?;");
+        ps.setLong(1, id);
+        return ps;
+    }
+
+    private Account isResultSet(ResultSet resultSet) throws SQLException {
+        if (resultSet.next()) {
+            return parseRow(resultSet);
+        } else {
+            throw new DaoOperationException("Result set is empty.");
+        }
     }
 
     @Override
@@ -79,7 +99,32 @@ public class AccountDaoImpl implements AccountDao {
 
     @Override
     public void update(Account account) {
-        throw new UnsupportedOperationException("Method is not implemented yet. It's your homework");
+        try (Connection connection = dataSource.getConnection()) {
+            executeUpdate(prepareUpdateStatement(connection, account));
+            System.out.println("Account with id = " + account.getId() + " was not updated");
+        } catch (SQLException e) {
+            throw new DaoOperationException(e.getMessage());
+        }
+    }
+
+    private void executeUpdate(PreparedStatement ps) throws SQLException {
+        if (ps.executeUpdate() == 0) {
+            throw new SQLException("Account was not updated");
+        }
+    }
+
+    private PreparedStatement prepareUpdateStatement(Connection connection, Account account) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement(
+                "UPDATE account SET first_name=?,last_name=?,email=?,birthday=?,balance=? WHERE id=?;",
+                PreparedStatement.KEEP_CURRENT_RESULT
+        );
+        ps.setString(1, account.getFirstName());
+        ps.setString(2, account.getLastName());
+        ps.setString(3, account.getEmail());
+        ps.setDate(4, Date.valueOf(account.getBirthday()));
+        ps.setBigDecimal(5, account.getBalance());
+        ps.setLong(6, account.getId());
+        return ps;
     }
 
     private Account parseRow(ResultSet rs) throws SQLException {

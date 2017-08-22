@@ -7,8 +7,8 @@ import javax.sql.DataSource;
 public class DbUtil {
     //todo: don't forget to specify your db properties
     static String url = "jdbc:postgresql://localhost:5432/bobocode_db";
-    static String user = "bobouser";
-    static String pass = "bobodpass";
+    static String user = "postgres";
+    static String pass = "postgres";
 
     private static DataSource dataSource;
 

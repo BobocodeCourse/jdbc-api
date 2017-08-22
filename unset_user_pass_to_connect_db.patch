@@ -1,0 +1,36 @@
+Index: jdbc-hello-world/src/main/java/com.bobocode/PrintDatabaseTables.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- jdbc-hello-world/src/main/java/com.bobocode/PrintDatabaseTables.java	(revision )
++++ jdbc-hello-world/src/main/java/com.bobocode/PrintDatabaseTables.java	(revision 084b59bcf26513410c214cb30298da5ad14e59e2)
+@@ -28,8 +28,8 @@
+ public class PrintDatabaseTables {
+     //todo: don't forget to specify your db properties
+     static String url = "jdbc:postgresql://localhost:5432/bobocode_db";
+-    static String user = "postgres";
+-    static String pass = "postgres";
++    static String user = "bobouser";
++    static String pass = "bobodpass";
+ 
+     public static void main(String[] args) throws SQLException {
+ 
+Index: jdbc-util/src/main/java/com/bobocode/util/DbUtil.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- jdbc-util/src/main/java/com/bobocode/util/DbUtil.java	(revision )
++++ jdbc-util/src/main/java/com/bobocode/util/DbUtil.java	(revision 084b59bcf26513410c214cb30298da5ad14e59e2)
+@@ -7,8 +7,8 @@
+ public class DbUtil {
+     //todo: don't forget to specify your db properties
+     static String url = "jdbc:postgresql://localhost:5432/bobocode_db";
+-    static String user = "postgres";
+-    static String pass = "postgres";
++    static String user = "bobouser";
++    static String pass = "bobodpass";
+ 
+     private static DataSource dataSource;
+ 

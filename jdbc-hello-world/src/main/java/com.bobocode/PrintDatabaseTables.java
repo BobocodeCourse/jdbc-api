@@ -28,8 +28,8 @@ import java.util.stream.Stream;
 public class PrintDatabaseTables {
     //todo: don't forget to specify your db properties
     static String url = "jdbc:postgresql://localhost:5432/bobocode_db";
-    static String user = "bobouser";
-    static String pass = "bobodpass";
+    static String user = "postgres";
+    static String pass = "postgres";
 
     public static void main(String[] args) throws SQLException {
 
