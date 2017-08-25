@@ -3,11 +3,12 @@ package com.bobocode.dao;
 import com.bobocode.model.Account;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AccountDao {
-    void save(Account account);
+    long save(Account account);
 
-    Account find(Long id);
+    Optional<Account> find(Long id);
 
     List<Account> findAll();
 
